@@ -1,0 +1,257 @@
+Jul-03 15:33:31.300 [main] DEBUG nextflow.cli.Launcher - $> nextflow run main.nf -profile contra
+Jul-03 15:33:31.502 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 24.04.2
+Jul-03 15:33:31.525 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/homes/vishnu/.nextflow/plugins; core-plugins: nf-amazon@2.5.2,nf-azure@1.6.0,nf-cloudcache@0.4.1,nf-codecommit@0.2.0,nf-console@1.1.3,nf-ga4gh@1.3.0,nf-google@1.13.2,nf-tower@1.9.1,nf-wave@1.4.2
+Jul-03 15:33:31.540 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Jul-03 15:33:31.541 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Jul-03 15:33:31.545 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.10.0 in 'deployment' mode
+Jul-03 15:33:31.561 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Jul-03 15:33:31.586 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /bscratch/vishnu/BEAMFORMER/asgard/nextflow.config
+Jul-03 15:33:31.591 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /bscratch/vishnu/BEAMFORMER/asgard/nextflow.config
+Jul-03 15:33:31.635 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /homes/vishnu/.nextflow/secrets/store.json
+Jul-03 15:33:31.639 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@6eafb10e] - activable => nextflow.secret.LocalSecretsProvider@6eafb10e
+Jul-03 15:33:31.653 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `contra`
+Jul-03 15:33:32.427 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [local, contra]
+Jul-03 15:33:32.460 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
+Jul-03 15:33:32.475 [main] DEBUG nextflow.cli.CmdRun - Launching `main.nf` [naughty_gautier] DSL2 - revision: 08a34737aa
+Jul-03 15:33:32.477 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Jul-03 15:33:32.477 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Jul-03 15:33:32.536 [main] DEBUG nextflow.Session - Session UUID: 9a1ecd68-0c35-4384-80d3-b52b11a49fba
+Jul-03 15:33:32.538 [main] DEBUG nextflow.Session - Run name: naughty_gautier
+Jul-03 15:33:32.538 [main] DEBUG nextflow.Session - Executor pool size: 2
+Jul-03 15:33:32.546 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Jul-03 15:33:32.552 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=10; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+Jul-03 15:33:32.573 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 24.04.2 build 5914
+  Created: 29-05-2024 06:19 UTC (08:19 CEST)
+  System: Linux 6.1.0-21-amd64
+  Runtime: Groovy 4.0.21 on OpenJDK 64-Bit Server VM 17.0.10+7
+  Encoding: UTF-8 (UTF-8)
+  Process: 3077197@csched [192.168.142.26]
+  CPUs: 2 - Mem: 1.9 GB (619.1 MB) - Swap: 2 GB (2 GB)
+Jul-03 15:33:32.598 [main] DEBUG nextflow.Session - Work-dir: /bscratch/vishnu/BEAMFORMER/asgard/work [fhgfs]
+Jul-03 15:33:32.599 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /bscratch/vishnu/BEAMFORMER/asgard/bin
+Jul-03 15:33:32.607 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Jul-03 15:33:32.615 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Jul-03 15:33:32.654 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Jul-03 15:33:32.665 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 3; maxThreads: 1000
+Jul-03 15:33:32.726 [main] DEBUG nextflow.Session - Session start
+Jul-03 15:33:33.035 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Jul-03 15:33:33.168 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:create_config` matches labels `create_config` for process with name createConfig_Data_Distribution
+Jul-03 15:33:33.187 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: condor
+Jul-03 15:33:33.188 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'condor'
+Jul-03 15:33:33.195 [main] DEBUG nextflow.executor.Executor - [warm up] executor > condor
+Jul-03 15:33:33.202 [main] DEBUG n.processor.TaskPollingMonitor - Creating task monitor for executor 'condor' > capacity: 100; pollInterval: 5s; dumpInterval: 5m 
+Jul-03 15:33:33.207 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: condor)
+Jul-03 15:33:33.211 [main] DEBUG n.executor.AbstractGridExecutor - Creating executor 'condor' > queue-stat-interval: 1m
+Jul-03 15:33:33.288 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:create_dada` matches labels `create_dada` for process with name CREATE_DADA
+Jul-03 15:33:33.291 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: condor
+Jul-03 15:33:33.292 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'condor'
+Jul-03 15:33:33.321 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: createConfig_Data_Distribution, CREATE_DADA
+Jul-03 15:33:33.322 [main] DEBUG nextflow.Session - Igniting dataflow network (3)
+Jul-03 15:33:33.324 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > createConfig_Data_Distribution
+Jul-03 15:33:33.326 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > CREATE_DADA
+Jul-03 15:33:33.326 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_b8e11b067d1bca24: /bscratch/vishnu/BEAMFORMER/asgard/main.nf
+Jul-03 15:33:33.327 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+Jul-03 15:33:33.328 [main] DEBUG nextflow.Session - Session await
+Jul-03 15:33:34.019 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (2) > jobId: 91.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/9d/34cbf1c19245701da88ba28d0825c7
+Jul-03 15:33:34.021 [Task submitter] INFO  nextflow.Session - [9d/34cbf1] Submitted process > createConfig_Data_Distribution (2)
+Jul-03 15:33:34.184 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (1) > jobId: 92.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/57/620f58b5ce7b52db242e4857e8937a
+Jul-03 15:33:34.185 [Task submitter] INFO  nextflow.Session - [57/620f58] Submitted process > createConfig_Data_Distribution (1)
+Jul-03 15:33:34.455 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (3) > jobId: 93.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/6f/c830bb957eab8706b7114dae386579
+Jul-03 15:33:34.456 [Task submitter] INFO  nextflow.Session - [6f/c830bb] Submitted process > createConfig_Data_Distribution (3)
+Jul-03 15:33:34.568 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (4) > jobId: 94.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/8f/aaaf3dbdb2a58ebb05edfd1e575afe
+Jul-03 15:33:34.569 [Task submitter] INFO  nextflow.Session - [8f/aaaf3d] Submitted process > createConfig_Data_Distribution (4)
+Jul-03 15:33:34.674 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (5) > jobId: 95.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/ce/a0056b6a17a875259b331013478814
+Jul-03 15:33:34.675 [Task submitter] INFO  nextflow.Session - [ce/a0056b] Submitted process > createConfig_Data_Distribution (5)
+Jul-03 15:33:34.801 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (6) > jobId: 96.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/4b/d422c7fff24d5cb0a81c9ca0d5fd0a
+Jul-03 15:33:34.802 [Task submitter] INFO  nextflow.Session - [4b/d422c7] Submitted process > createConfig_Data_Distribution (6)
+Jul-03 15:33:34.902 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (7) > jobId: 97.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/ba/57fe864966f213290ca80f14fe8e79
+Jul-03 15:33:34.903 [Task submitter] INFO  nextflow.Session - [ba/57fe86] Submitted process > createConfig_Data_Distribution (7)
+Jul-03 15:33:34.992 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (9) > jobId: 98.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/75/f5ffe119cac0a84e19a33390cf5243
+Jul-03 15:33:34.993 [Task submitter] INFO  nextflow.Session - [75/f5ffe1] Submitted process > createConfig_Data_Distribution (9)
+Jul-03 15:33:35.092 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (10) > jobId: 99.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/4e/2df8f0500d74c3c430968b14a6a38d
+Jul-03 15:33:35.093 [Task submitter] INFO  nextflow.Session - [4e/2df8f0] Submitted process > createConfig_Data_Distribution (10)
+Jul-03 15:33:35.187 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (8) > jobId: 100.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/ec/6aaa5b35dcb9ecc6e071648894c49c
+Jul-03 15:33:35.188 [Task submitter] INFO  nextflow.Session - [ec/6aaa5b] Submitted process > createConfig_Data_Distribution (8)
+Jul-03 15:33:35.267 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (11) > jobId: 101.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/2c/421d1c9bf37c29fa0cb009f6388727
+Jul-03 15:33:35.268 [Task submitter] INFO  nextflow.Session - [2c/421d1c] Submitted process > createConfig_Data_Distribution (11)
+Jul-03 15:33:35.341 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (12) > jobId: 102.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/39/a4c477f04d475f22f5088961ef1e5f
+Jul-03 15:33:35.342 [Task submitter] INFO  nextflow.Session - [39/a4c477] Submitted process > createConfig_Data_Distribution (12)
+Jul-03 15:33:35.415 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (14) > jobId: 103.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/d1/3586d3af2b3634ba1fb084338847d2
+Jul-03 15:33:35.416 [Task submitter] INFO  nextflow.Session - [d1/3586d3] Submitted process > createConfig_Data_Distribution (14)
+Jul-03 15:33:35.501 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (13) > jobId: 104.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/ab/6ba50dbc7553de96128210f8a4167e
+Jul-03 15:33:35.502 [Task submitter] INFO  nextflow.Session - [ab/6ba50d] Submitted process > createConfig_Data_Distribution (13)
+Jul-03 15:33:35.572 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (15) > jobId: 105.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/4c/70dfd0bc82e73aa84138cfd834505d
+Jul-03 15:33:35.572 [Task submitter] INFO  nextflow.Session - [4c/70dfd0] Submitted process > createConfig_Data_Distribution (15)
+Jul-03 15:33:35.671 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (17) > jobId: 106.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/3e/40fb7cdf152e771d20f7ccd8a7c68c
+Jul-03 15:33:35.672 [Task submitter] INFO  nextflow.Session - [3e/40fb7c] Submitted process > createConfig_Data_Distribution (17)
+Jul-03 15:33:35.755 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (16) > jobId: 107.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/90/0ca458b54a0ee4bd2ce9446e791b71
+Jul-03 15:33:35.756 [Task submitter] INFO  nextflow.Session - [90/0ca458] Submitted process > createConfig_Data_Distribution (16)
+Jul-03 15:33:35.853 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (19) > jobId: 108.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/ec/669bdd8ba6b52f44a49d9281cd9c90
+Jul-03 15:33:35.854 [Task submitter] INFO  nextflow.Session - [ec/669bdd] Submitted process > createConfig_Data_Distribution (19)
+Jul-03 15:33:35.948 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (18) > jobId: 109.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/87/850d8482dbb5030a0f54c36a10d7c0
+Jul-03 15:33:35.949 [Task submitter] INFO  nextflow.Session - [87/850d84] Submitted process > createConfig_Data_Distribution (18)
+Jul-03 15:33:36.072 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (21) > jobId: 110.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/ee/e5f741981b025e0594ef4d006ae630
+Jul-03 15:33:36.073 [Task submitter] INFO  nextflow.Session - [ee/e5f741] Submitted process > createConfig_Data_Distribution (21)
+Jul-03 15:33:36.195 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (20) > jobId: 111.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/d7/ee132f6024029e7374cb6d6c089c55
+Jul-03 15:33:36.196 [Task submitter] INFO  nextflow.Session - [d7/ee132f] Submitted process > createConfig_Data_Distribution (20)
+Jul-03 15:33:36.271 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (23) > jobId: 112.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/62/74bcb89f790c87718a7a09fba27150
+Jul-03 15:33:36.273 [Task submitter] INFO  nextflow.Session - [62/74bcb8] Submitted process > createConfig_Data_Distribution (23)
+Jul-03 15:33:36.364 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (24) > jobId: 113.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/75/d86ad1097d255246b5f6f76d5b682a
+Jul-03 15:33:36.365 [Task submitter] INFO  nextflow.Session - [75/d86ad1] Submitted process > createConfig_Data_Distribution (24)
+Jul-03 15:33:36.443 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (22) > jobId: 114.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/fd/76654a414bad4b141854a1c94c94f4
+Jul-03 15:33:36.444 [Task submitter] INFO  nextflow.Session - [fd/76654a] Submitted process > createConfig_Data_Distribution (22)
+Jul-03 15:33:36.514 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (25) > jobId: 115.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/01/3e40a7dfec8f5586aef246ff097bfb
+Jul-03 15:33:36.515 [Task submitter] INFO  nextflow.Session - [01/3e40a7] Submitted process > createConfig_Data_Distribution (25)
+Jul-03 15:33:36.591 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (26) > jobId: 116.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/85/cf3fa0892e1d51820096a352356374
+Jul-03 15:33:36.591 [Task submitter] INFO  nextflow.Session - [85/cf3fa0] Submitted process > createConfig_Data_Distribution (26)
+Jul-03 15:33:36.664 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (28) > jobId: 117.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/3d/f95ae7a436679021ec88571e3fb9fb
+Jul-03 15:33:36.665 [Task submitter] INFO  nextflow.Session - [3d/f95ae7] Submitted process > createConfig_Data_Distribution (28)
+Jul-03 15:33:36.735 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (27) > jobId: 118.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/99/69982741eb5bce8c113aba2a190c13
+Jul-03 15:33:36.735 [Task submitter] INFO  nextflow.Session - [99/699827] Submitted process > createConfig_Data_Distribution (27)
+Jul-03 15:33:36.804 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (30) > jobId: 119.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/ce/c9424448cbe1af34b3ebd3bff1a3a0
+Jul-03 15:33:36.805 [Task submitter] INFO  nextflow.Session - [ce/c94244] Submitted process > createConfig_Data_Distribution (30)
+Jul-03 15:33:36.884 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (29) > jobId: 120.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/10/5eb8853e6c887d3d9ddc3ed130143d
+Jul-03 15:33:36.885 [Task submitter] INFO  nextflow.Session - [10/5eb885] Submitted process > createConfig_Data_Distribution (29)
+Jul-03 15:33:36.983 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (31) > jobId: 121.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/18/4fd1c6290c591d1b0e702d067ef2fe
+Jul-03 15:33:36.984 [Task submitter] INFO  nextflow.Session - [18/4fd1c6] Submitted process > createConfig_Data_Distribution (31)
+Jul-03 15:33:37.052 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (33) > jobId: 122.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/da/4f141eedff67369784453816800c3e
+Jul-03 15:33:37.053 [Task submitter] INFO  nextflow.Session - [da/4f141e] Submitted process > createConfig_Data_Distribution (33)
+Jul-03 15:33:37.125 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (32) > jobId: 123.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/84/94a8dff59fddeb4ad600764fd80461
+Jul-03 15:33:37.126 [Task submitter] INFO  nextflow.Session - [84/94a8df] Submitted process > createConfig_Data_Distribution (32)
+Jul-03 15:33:37.195 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (35) > jobId: 124.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/b5/688a9fba3d7479df0af744be0baa9b
+Jul-03 15:33:37.196 [Task submitter] INFO  nextflow.Session - [b5/688a9f] Submitted process > createConfig_Data_Distribution (35)
+Jul-03 15:33:37.270 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (34) > jobId: 125.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/56/4a0b495fcd544c2288686c66771707
+Jul-03 15:33:37.271 [Task submitter] INFO  nextflow.Session - [56/4a0b49] Submitted process > createConfig_Data_Distribution (34)
+Jul-03 15:33:37.345 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (36) > jobId: 126.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/10/8624c668945e0c0ae44b002c469564
+Jul-03 15:33:37.346 [Task submitter] INFO  nextflow.Session - [10/8624c6] Submitted process > createConfig_Data_Distribution (36)
+Jul-03 15:33:37.417 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (38) > jobId: 127.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/1d/7f9ad9b7bdd8d21f9d5523b84d9bb7
+Jul-03 15:33:37.418 [Task submitter] INFO  nextflow.Session - [1d/7f9ad9] Submitted process > createConfig_Data_Distribution (38)
+Jul-03 15:33:37.488 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (37) > jobId: 128.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/7d/85c997cd9c11943bfb20becce2f601
+Jul-03 15:33:37.489 [Task submitter] INFO  nextflow.Session - [7d/85c997] Submitted process > createConfig_Data_Distribution (37)
+Jul-03 15:33:37.560 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (39) > jobId: 129.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/70/a6673d449de7f58ab59496e39ab723
+Jul-03 15:33:37.561 [Task submitter] INFO  nextflow.Session - [70/a6673d] Submitted process > createConfig_Data_Distribution (39)
+Jul-03 15:33:37.628 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (40) > jobId: 130.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/46/4a7839881a3630f3de839f7e2ab0e6
+Jul-03 15:33:37.629 [Task submitter] INFO  nextflow.Session - [46/4a7839] Submitted process > createConfig_Data_Distribution (40)
+Jul-03 15:33:37.698 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (41) > jobId: 131.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/83/b48790699a72e3cc3faba2dfd9682b
+Jul-03 15:33:37.699 [Task submitter] INFO  nextflow.Session - [83/b48790] Submitted process > createConfig_Data_Distribution (41)
+Jul-03 15:33:37.768 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (42) > jobId: 132.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/0d/741ef6463c99b0e0fc0e0664211121
+Jul-03 15:33:37.768 [Task submitter] INFO  nextflow.Session - [0d/741ef6] Submitted process > createConfig_Data_Distribution (42)
+Jul-03 15:33:37.837 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (43) > jobId: 133.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/b4/375ecabb149789aeac91c8d5b39fa8
+Jul-03 15:33:37.838 [Task submitter] INFO  nextflow.Session - [b4/375eca] Submitted process > createConfig_Data_Distribution (43)
+Jul-03 15:33:37.906 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (45) > jobId: 134.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/dd/c30152d6af99d9d75b5864523ee484
+Jul-03 15:33:37.907 [Task submitter] INFO  nextflow.Session - [dd/c30152] Submitted process > createConfig_Data_Distribution (45)
+Jul-03 15:33:37.971 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (44) > jobId: 135.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/71/2481a0e872f0c1029d6705e5056018
+Jul-03 15:33:37.972 [Task submitter] INFO  nextflow.Session - [71/2481a0] Submitted process > createConfig_Data_Distribution (44)
+Jul-03 15:33:38.062 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (46) > jobId: 136.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/29/c20cba75d6bda0e962824a47e69a36
+Jul-03 15:33:38.063 [Task submitter] INFO  nextflow.Session - [29/c20cba] Submitted process > createConfig_Data_Distribution (46)
+Jul-03 15:33:38.155 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (47) > jobId: 137.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/4f/16eed9b832881aa9132cb94c9cd303
+Jul-03 15:33:38.156 [Task submitter] INFO  nextflow.Session - [4f/16eed9] Submitted process > createConfig_Data_Distribution (47)
+Jul-03 15:33:38.221 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 91.0; id: 2; name: createConfig_Data_Distribution (2); status: COMPLETED; exit: 0; error: -; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/9d/34cbf1c19245701da88ba28d0825c7 started: 1720013618214; exited: 2024-07-03T13:33:37Z; ]
+Jul-03 15:33:38.223 [Task monitor] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'TaskFinalizer' minSize=10; maxSize=10; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+Jul-03 15:33:38.239 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (48) > jobId: 138.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/29/1452726e548ac128ee31108648a23e
+Jul-03 15:33:38.240 [Task submitter] INFO  nextflow.Session - [29/145272] Submitted process > createConfig_Data_Distribution (48)
+Jul-03 15:33:38.388 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (49) > jobId: 139.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/81/e019b3a2c95c948b1f489f446bc435
+Jul-03 15:33:38.389 [Task submitter] INFO  nextflow.Session - [81/e019b3] Submitted process > createConfig_Data_Distribution (49)
+Jul-03 15:33:38.479 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (51) > jobId: 140.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/3e/0635e090176412c15a71cddcb30855
+Jul-03 15:33:38.480 [Task submitter] INFO  nextflow.Session - [3e/0635e0] Submitted process > createConfig_Data_Distribution (51)
+Jul-03 15:33:38.549 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (50) > jobId: 141.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/b5/5880d2e85b7028b9acd003fd49b941
+Jul-03 15:33:38.550 [Task submitter] INFO  nextflow.Session - [b5/5880d2] Submitted process > createConfig_Data_Distribution (50)
+Jul-03 15:33:38.618 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (53) > jobId: 142.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/a2/52c8f16cb479fc2059d50153fee957
+Jul-03 15:33:38.619 [Task submitter] INFO  nextflow.Session - [a2/52c8f1] Submitted process > createConfig_Data_Distribution (53)
+Jul-03 15:33:38.692 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (52) > jobId: 143.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/fb/ba7ec8e4eebdee14c56cc8c7f33437
+Jul-03 15:33:38.692 [Task submitter] INFO  nextflow.Session - [fb/ba7ec8] Submitted process > createConfig_Data_Distribution (52)
+Jul-03 15:33:38.784 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (54) > jobId: 144.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/38/0c94273609c43aeb54b856bef00701
+Jul-03 15:33:38.785 [Task submitter] INFO  nextflow.Session - [38/0c9427] Submitted process > createConfig_Data_Distribution (54)
+Jul-03 15:33:38.876 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (55) > jobId: 145.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/77/9491be06b7448a0bb1ff1103b4dd38
+Jul-03 15:33:38.877 [Task submitter] INFO  nextflow.Session - [77/9491be] Submitted process > createConfig_Data_Distribution (55)
+Jul-03 15:33:38.944 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (57) > jobId: 146.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/01/0a6768c3edd17c2775060585156132
+Jul-03 15:33:38.945 [Task submitter] INFO  nextflow.Session - [01/0a6768] Submitted process > createConfig_Data_Distribution (57)
+Jul-03 15:33:39.015 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (56) > jobId: 147.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/73/6ccdbb80c1db75d955b648f0259f53
+Jul-03 15:33:39.016 [Task submitter] INFO  nextflow.Session - [73/6ccdbb] Submitted process > createConfig_Data_Distribution (56)
+Jul-03 15:33:39.088 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (58) > jobId: 148.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/0b/263460d6fde80f638ac49b5db1dfbd
+Jul-03 15:33:39.089 [Task submitter] INFO  nextflow.Session - [0b/263460] Submitted process > createConfig_Data_Distribution (58)
+Jul-03 15:33:39.155 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (59) > jobId: 149.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/dc/8ed5375d142f1217ca4c2669b21fb8
+Jul-03 15:33:39.156 [Task submitter] INFO  nextflow.Session - [dc/8ed537] Submitted process > createConfig_Data_Distribution (59)
+Jul-03 15:33:39.225 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (60) > jobId: 150.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/5d/27abbc35c1583d49e6f973f8205bce
+Jul-03 15:33:39.226 [Task submitter] INFO  nextflow.Session - [5d/27abbc] Submitted process > createConfig_Data_Distribution (60)
+Jul-03 15:33:39.302 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (61) > jobId: 151.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/1c/0607533e24e12a4be842739b8a0ad5
+Jul-03 15:33:39.303 [Task submitter] INFO  nextflow.Session - [1c/060753] Submitted process > createConfig_Data_Distribution (61)
+Jul-03 15:33:39.373 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (62) > jobId: 152.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/d6/5f192a6d45cb56ad656ec1ac8dbdde
+Jul-03 15:33:39.374 [Task submitter] INFO  nextflow.Session - [d6/5f192a] Submitted process > createConfig_Data_Distribution (62)
+Jul-03 15:33:39.466 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (64) > jobId: 153.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/d4/c8246ef6566ac2588a17197af49b78
+Jul-03 15:33:39.467 [Task submitter] INFO  nextflow.Session - [d4/c8246e] Submitted process > createConfig_Data_Distribution (64)
+Jul-03 15:33:39.543 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process createConfig_Data_Distribution (63) > jobId: 154.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/f3/67eb83783767db8ef4883048c56569
+Jul-03 15:33:39.544 [Task submitter] INFO  nextflow.Session - [f3/67eb83] Submitted process > createConfig_Data_Distribution (63)
+Jul-03 15:33:39.628 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process CREATE_DADA (1) > jobId: 155.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/9b/00e37ee58953c127e983eb779be7d1
+Jul-03 15:33:39.629 [Task submitter] INFO  nextflow.Session - [9b/00e37e] Submitted process > CREATE_DADA (1)
+Jul-03 15:33:43.216 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 92.0; id: 1; name: createConfig_Data_Distribution (1); status: COMPLETED; exit: 0; error: -; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/57/620f58b5ce7b52db242e4857e8937a started: 1720013618226; exited: 2024-07-03T13:33:41Z; ]
+Jul-03 15:33:43.328 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process CREATE_DADA (2) > jobId: 156.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/06/3ff13abe561501dbd133acfc05972a
+Jul-03 15:33:43.329 [Task submitter] INFO  nextflow.Session - [06/3ff13a] Submitted process > CREATE_DADA (2)
+Jul-03 15:33:48.216 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 93.0; id: 3; name: createConfig_Data_Distribution (3); status: COMPLETED; exit: 0; error: -; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/6f/c830bb957eab8706b7114dae386579 started: 1720013623217; exited: 2024-07-03T13:33:44Z; ]
+Jul-03 15:33:48.220 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 94.0; id: 4; name: createConfig_Data_Distribution (4); status: COMPLETED; exit: 0; error: -; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/8f/aaaf3dbdb2a58ebb05edfd1e575afe started: 1720013628218; exited: 2024-07-03T13:33:47Z; ]
+Jul-03 15:33:48.326 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process CREATE_DADA (3) > jobId: 157.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/2c/7a00405e9e20a37e05c418f13cdb88
+Jul-03 15:33:48.326 [Task submitter] INFO  nextflow.Session - [2c/7a0040] Submitted process > CREATE_DADA (3)
+Jul-03 15:33:48.418 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process CREATE_DADA (4) > jobId: 158.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/16/fd9b894cb0f3f2d4c9b1fdde53be54
+Jul-03 15:33:48.419 [Task submitter] INFO  nextflow.Session - [16/fd9b89] Submitted process > CREATE_DADA (4)
+Jul-03 15:33:53.216 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 95.0; id: 5; name: createConfig_Data_Distribution (5); status: COMPLETED; exit: 0; error: -; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/ce/a0056b6a17a875259b331013478814 started: 1720013628221; exited: 2024-07-03T13:33:51Z; ]
+Jul-03 15:33:53.346 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process CREATE_DADA (5) > jobId: 159.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/45/bb6ee82f37b84bc49dddebb3d436e9
+Jul-03 15:33:53.347 [Task submitter] INFO  nextflow.Session - [45/bb6ee8] Submitted process > CREATE_DADA (5)
+Jul-03 15:33:58.216 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 96.0; id: 6; name: createConfig_Data_Distribution (6); status: COMPLETED; exit: 0; error: -; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/4b/d422c7fff24d5cb0a81c9ca0d5fd0a started: 1720013633218; exited: 2024-07-03T13:33:54Z; ]
+Jul-03 15:33:58.219 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 97.0; id: 7; name: createConfig_Data_Distribution (7); status: COMPLETED; exit: 0; error: -; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/ba/57fe864966f213290ca80f14fe8e79 started: 1720013638217; exited: 2024-07-03T13:33:57Z; ]
+Jul-03 15:33:58.386 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 155.0; id: 65; name: CREATE_DADA (1); status: COMPLETED; exit: 1; error: -; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/9b/00e37ee58953c127e983eb779be7d1 started: 1720013638385; exited: 2024-07-03T13:33:55Z; ]
+Jul-03 15:33:58.400 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 156.0; id: 66; name: CREATE_DADA (2); status: COMPLETED; exit: 1; error: -; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/06/3ff13abe561501dbd133acfc05972a started: 1720013638399; exited: 2024-07-03T13:33:55Z; ]
+Jul-03 15:33:58.404 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 159.0; id: 69; name: CREATE_DADA (5); status: COMPLETED; exit: 1; error: -; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/45/bb6ee82f37b84bc49dddebb3d436e9 started: 1720013638403; exited: 2024-07-03T13:33:56Z; ]
+Jul-03 15:33:58.408 [TaskFinalizer-8] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=CREATE_DADA (1); work-dir=/bscratch/vishnu/BEAMFORMER/asgard/work/9b/00e37ee58953c127e983eb779be7d1
+  error [nextflow.exception.ProcessFailedException]: Process `CREATE_DADA (1)` terminated with an error exit status (1)
+Jul-03 15:33:58.415 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process CREATE_DADA (6) > jobId: 160.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/53/cce79478fd7f84bd8a550335662b80
+Jul-03 15:33:58.415 [Task submitter] INFO  nextflow.Session - [53/cce794] Submitted process > CREATE_DADA (6)
+Jul-03 15:33:58.434 [TaskFinalizer-8] ERROR nextflow.processor.TaskProcessor - Error executing process > 'CREATE_DADA (1)'
+
+Caused by:
+  Process `CREATE_DADA (1)` terminated with an error exit status (1)
+
+
+Command executed:
+
+  #!/bin/bash
+  
+  /workspace/BEAMFORMER/meerkat-data-distribution/distribute -c bridge_1.conf -N
+
+Command exit status:
+  1
+
+Command output:
+  (empty)
+
+Command error:
+  [ERROR]: Couldn't read the source name.
+
+Work dir:
+  /bscratch/vishnu/BEAMFORMER/asgard/work/9b/00e37ee58953c127e983eb779be7d1
+
+Tip: view the complete command output by changing to the process work dir and entering the command `cat .command.out`
+Jul-03 15:33:58.439 [TaskFinalizer-10] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=CREATE_DADA (5); work-dir=/bscratch/vishnu/BEAMFORMER/asgard/work/45/bb6ee82f37b84bc49dddebb3d436e9
+  error [nextflow.exception.ProcessFailedException]: Process `CREATE_DADA (5)` terminated with an error exit status (1)
+Jul-03 15:33:58.440 [TaskFinalizer-8] DEBUG nextflow.Session - Session aborted -- Cause: Process `CREATE_DADA (1)` terminated with an error exit status (1)
+Jul-03 15:33:58.442 [TaskFinalizer-9] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=CREATE_DADA (2); work-dir=/bscratch/vishnu/BEAMFORMER/asgard/work/06/3ff13abe561501dbd133acfc05972a
+  error [nextflow.exception.ProcessFailedException]: Process `CREATE_DADA (2)` terminated with an error exit status (1)
+Jul-03 15:33:58.452 [TaskFinalizer-8] DEBUG nextflow.Session - The following nodes are still active:
+[process] CREATE_DADA
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+Jul-03 15:33:58.455 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: condor) - terminating tasks monitor poll loop
+Jul-03 15:33:58.455 [main] DEBUG nextflow.Session - Session await > all processes finished
+Jul-03 15:33:58.456 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Jul-03 15:33:58.462 [main] WARN  n.processor.TaskPollingMonitor - Killing running tasks (60)
+Jul-03 15:33:58.548 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [CONDOR] submitted process CREATE_DADA (7) > jobId: 161.0; workDir: /bscratch/vishnu/BEAMFORMER/asgard/work/05/2a6640440cb8ed2bb766e38d1cbe80
+Jul-03 15:33:58.549 [Task submitter] INFO  nextflow.Session - [05/2a6640] Submitted process > CREATE_DADA (7)
+Jul-03 15:33:58.632 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=7; failedCount=3; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=2; runningCount=-1; retriesCount=0; abortedCount=60; succeedDuration=20s; failedDuration=24ms; cachedDuration=0ms;loadCpus=-8; loadMemory=0; peakRunning=62; peakCpus=97; peakMemory=2.6 TB; ]
+Jul-03 15:33:58.663 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+Jul-03 15:33:58.699 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
