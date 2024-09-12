@@ -23,7 +23,7 @@ if __name__ == "__main__":
     parser.add_argument('-i', '--ini-file', type=str, required=True, help="Path to the output INI file")
     parser.add_argument('-f', '--dada_file_list', type=str, required=True, help="Path to the Dada file list per bridge")
     parser.add_argument('-e', '--enable-incoherent-dedispersion', type=int, default=1, help="Enable incoherent dedispersion")
-    parser.add_argument('-n', '--nthreads', type=int, default=16, help="Number of threads")
+    parser.add_argument('-n', '--nthreads', type=int, default=32, help="Number of threads")
     parser.add_argument('-o', '--output-dir', type=str, default='/b/u/vishnu/01_BEAM_FORMED/', help="Output directory")
     parser.add_argument('-d', '--delay-file', type=str, required=True, help="Delay file")
     parser.add_argument('-t', '--duration', type=float, required=True, help="Duration")
@@ -40,8 +40,9 @@ if __name__ == "__main__":
         "nthreads": args.nthreads,
         "output-dir": args.output_dir,
         "delay-file": args.delay_file,
-        "duration": args.duration - 1.0,
-        "log-level": args.log_level
+        "duration": 5.0,
+        "log-level": args.log_level,
+        "output-level": 12
     }
     os.makedirs("results", exist_ok=True)
     write_ini(f"results/{args.ini_file}", ddplan, additional_settings)

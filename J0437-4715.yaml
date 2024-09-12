@@ -1,3 +1,5 @@
+---
+created_at: 2024-07-23
 created_by: vishnu
 beamformer_config:
   # The total number of beams to be produced (must be a multiple of 32)
@@ -17,15 +19,11 @@ beamformer_config:
   #            "<end_incoherent_dm>:<dm_step>:<tscrunch>) or "
   #           "(<coherent_dm>:<tscrunch>) "
   #           "or (<coherent_dm>)")
-
-  coherent_dms: []
+  coherent_dms: [0.0]
 
 ddplan:
-  - "478.6:478.6:478.6:1:1"
-  - "0.00:478.6:478.6:1:1"
   - "0.00:0.00:0.00:1:1"
-  - "278.6:278.6:278.6:1:1"
-  - "100.00:100.00:100.00:1:1"
+
 
 beam_sets:
   # First beam set does blah blah blah
@@ -39,5 +37,5 @@ beam_sets:
     tilings:
       - nbeams: 800
         reference_frequency: null
-        target: "J1644-4559,radec,16:44:49.273,-45:59:09.71"
+        target: "J0437-4715,radec,04:37:15.896,-47:15:09.1107"
         overlap: 0.9

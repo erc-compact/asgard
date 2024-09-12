@@ -79,10 +79,12 @@ process get_metadata_and_create_dada_file_list {
     dest_dir=\$(grep "dest_dir" metadata.info | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
     pointing_id=\$(grep "pointing_id" metadata.info | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
     obs_duration=\$(grep "obs_duration" metadata.info | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
+    beamforming_output_dir=\$(grep "beamforming_output_dir" metadata.info | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
     output_file=${source_name}_bridge_${bridge_number}.dada.list
+    # Replace 00_DADA_FILES with 01_BEAM_FORMED in the beam_formed_dir path
 
-    # Replace 00_DADA_FILES with 01_BEAM_FORMED in the dest_dir path
-    beam_formed_dir=\$(echo "\$dest_dir" | sed 's/00_DADA_FILES/01_BEAM_FORMED/')
+
+    beam_formed_dir=\$(echo "\$beamforming_output_dir" | sed 's/00_DADA_FILES/01_BEAM_FORMED/')
     mkdir -p "\$beam_formed_dir"
 
     find "\$dest_dir" -maxdepth 1 -type f -name "*.dada" | sort  > "\$output_file"
@@ -123,15 +125,14 @@ process create_skyweavercpp_config{
     path(output_skyweaver_cpp_config)
     tuple path(dada_file_list), path(delay_file), val(obs_duration), val(beam_formed_dir)
 
-
     output:
     tuple path("**/*.ini"), path(dada_file_list), path(delay_file), val(beam_formed_dir)
 
     script:
     """
     #!/bin/bash
-    
-    python $baseDir/yaml_to_ini_convert.py -y ${skyweaverpy_yaml_config} -i ${output_skyweaver_cpp_config} -o ${beam_formed_dir} -d ${delay_file} -t ${obs_duration} -f ${dada_file_list}
+    python $baseDir/yaml_to_ini_convert.py -y ${skyweaverpy_yaml_config} -i ${output_skyweaver_cpp_config} -o ${params.beamforming_output_dir} -d ${delay_file} -t ${obs_duration} -f ${dada_file_list}
+
     """
 
 
@@ -141,6 +142,8 @@ process create_skyweavercpp_config{
 process beamformer{
     label 'beamformer'
     container "${params.skyweavercpp_image}"
+    errorStrategy 'ignore'
+    maxRetries 3
 
     input:
     tuple path(skyweaver_cpp_config), path(dada_file_list), path(delay_file), val(beam_formed_dir)
@@ -149,9 +152,16 @@ process beamformer{
     stdout    
 
     script:
+    def skyweavercpp_exec = params.skyweavercpp_code_dir ? "${params.skyweavercpp_code_dir}/skyweavercpp" : '/usr/local/bin/skyweavercpp'
+
     """
     #!/bin/bash
-    skyweavercpp -c ${skyweaver_cpp_config}
+    mkdir -p ${beam_formed_dir}
+    
+    SKYWEAVERCPP_PATH=\${params.skyweavercpp_code_dir ?: '/usr/local/bin'}/skyweavercpp
+
+    ${skyweavercpp_exec} --gulp-size ${params.skyweavercpp_gulp_size} -c ${skyweaver_cpp_config} --log-level ${params.skyweavercpp_log_level}
+
     """
 }
 
@@ -169,8 +179,6 @@ workflow {
     bridge_number = Channel.from(params.bridge_number)
     delay_file_channel = create_delay_file(params.source_name, params.delay_validity_time_interval, params.bvruse_metadata, params.input_yaml_config)
     metadata_channel = get_metadata_and_create_dada_file_list(delay_file_channel, params.source_name, bridge_number, params.bvruse_metadata, params.output_root_dir)
-
-
     sw_cpp_config = create_skyweavercpp_config(params.input_yaml_config, params.skyweaver_cpp_config, metadata_channel)
     beamformer(sw_cpp_config)
     
