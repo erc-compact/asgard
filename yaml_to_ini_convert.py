@@ -40,7 +40,7 @@ if __name__ == "__main__":
         "nthreads": args.nthreads,
         "output-dir": args.output_dir,
         "delay-file": args.delay_file,
-        "duration": 5.0,
+        "duration": args.duration,
         "log-level": args.log_level,
         "output-level": 12
     }

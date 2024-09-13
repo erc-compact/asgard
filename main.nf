@@ -139,7 +139,7 @@ process create_skyweavercpp_config{
 
 }
 
-process beamformer{
+process beamformer {
     label 'beamformer'
     container "${params.skyweavercpp_image}"
     errorStrategy 'ignore'
@@ -149,21 +149,18 @@ process beamformer{
     tuple path(skyweaver_cpp_config), path(dada_file_list), path(delay_file), val(beam_formed_dir)
 
     output:
-    stdout    
+    stdout
 
     script:
-    def skyweavercpp_exec = params.skyweavercpp_code_dir ? "${params.skyweavercpp_code_dir}/skyweavercpp" : '/usr/local/bin/skyweavercpp'
+    def skyweavercpp_path = params.skyweavercpp_code_dir ? "${params.skyweavercpp_code_dir}/skyweavercpp" : '/usr/local/bin/skyweavercpp'
 
     """
-    #!/bin/bash
-    mkdir -p ${beam_formed_dir}
-    
-    SKYWEAVERCPP_PATH=\${params.skyweavercpp_code_dir ?: '/usr/local/bin'}/skyweavercpp
-
-    ${skyweavercpp_exec} --gulp-size ${params.skyweavercpp_gulp_size} -c ${skyweaver_cpp_config} --log-level ${params.skyweavercpp_log_level}
-
+    #!/bin/bash    
+    mkdir -p ${params.beamforming_output_dir}
+    ${skyweavercpp_path} --gulp-size ${params.skyweavercpp_gulp_size} -c ${skyweaver_cpp_config} --log-level ${params.skyweavercpp_log_level}
     """
 }
+
 
 workflow create_dada_workflow {
     pointing_id = Channel.from(params.pointing_id)
