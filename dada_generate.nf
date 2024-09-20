@@ -19,12 +19,12 @@ process createConfig_Data_Distribution {
     """
     #!/bin/bash
     source /workspace/python_environments/dada_generator/bin/activate
-    #python /workspace/BEAMFORMER/meerkat-data-distribution/python/make_config_from_metadata.py ${bvruse_metadata} -p ${pointing_id} -b ${bridge_number} -r ${input_root_dir} -d ${output_root_dir} > bridge_${bridge_number}.conf
-    python /workspace/BEAMFORMER/meerkat-data-distribution/python/make_config.py ${bvruse_metadata} -p ${pointing_id} -b ${bridge_number} -r ${input_root_dir} -d ${output_root_dir} > bridge_${bridge_number}.conf
+    python /workspace/BEAMFORMER/meerkat-data-distribution/python/generate_bridge_source_dest_dir.py ${bvruse_metadata} -p ${pointing_id} -b ${bridge_number} -r ${input_root_dir} -d ${output_root_dir} > dirnames.conf
+    source_dir=\$(grep "source_dir" dirnames.conf | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
+    dest_dir=\$(grep "dest_dir" dirnames.conf | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
+    src_tag=\$(grep "tag" dirnames.conf | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
+    python /workspace/BEAMFORMER/meerkat-data-distribution/python/make_config_from_metadata.py ${bvruse_metadata} -p ${pointing_id} -b ${bridge_number} -s \${source_dir} -d \${dest_dir} --src_tag \${src_tag} > bridge_${bridge_number}.conf
 
-    #Extract dest_dir from config file
-    #dest_dir=\$(grep "dest_dir" bridge_${bridge_number}.conf | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
-    
     """
 }
 
