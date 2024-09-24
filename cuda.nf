@@ -1,7 +1,7 @@
 
 process gpu_test {
     label 'beamformer'
-    container "${params.skyweaverpy_image}"
+    container "${params.apptainer_images.skyweaverpy_image}"
 
     input:
     stdout
