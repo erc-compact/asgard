@@ -14,8 +14,11 @@ process createConfig_Data_Distribution {
 
     output:
     path("bridge_${bridge_number}.conf")
-   
+
+
     script:
+    def skipTime = params.dada_generate.skip_first_n_seconds ? params.dada_generate.skip_first_n_seconds : 0
+
     """
     #!/bin/bash
     source /workspace/python_environments/dada_generator/bin/activate
@@ -23,8 +26,15 @@ process createConfig_Data_Distribution {
     source_dir=\$(grep "source_dir" dirnames.conf | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
     dada_dir=\$(grep "dada_dir" dirnames.conf | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
     src_tag=\$(grep "tag" dirnames.conf | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
+    if [ ${skipTime} -gt 0 ]; then
+        echo "Skipping the first ${skipTime} seconds of the observation"
+        python /workspace/BEAMFORMER/meerkat-data-distribution/python/generate_timestamp_from_duration.py ${bvruse_metadata} -p ${pointing_id} -s ${skipTime} > timestamp.info
+        start_timestamp=\$(grep "Start Timestamp" timestamp.info | awk -F ':' '{print \$2}' | sed 's/[", ]//g')
+        python /workspace/BEAMFORMER/meerkat-data-distribution/python/make_config_from_metadata.py ${bvruse_metadata} -p ${pointing_id} -b ${bridge_number} -s \${source_dir} -d \${dada_dir} --src_tag \${src_tag} -f \${start_timestamp} > bridge_${bridge_number}.conf
+    else
     python /workspace/BEAMFORMER/meerkat-data-distribution/python/make_config_from_metadata.py ${bvruse_metadata} -p ${pointing_id} -b ${bridge_number} -s \${source_dir} -d \${dada_dir} --src_tag \${src_tag} > bridge_${bridge_number}.conf
 
+    fi
     """
 }
 
@@ -48,7 +58,7 @@ process CREATE_DADA {
     set -x  # Enable debugging
     export TERM=dumb
     echo "Starting the distribution process"
-    /workspace/BEAMFORMER/meerkat-data-distribution/distribute -c ${config_file} 
+    time /workspace/BEAMFORMER/meerkat-data-distribution/distribute -c ${config_file} 
     echo "Distribution process completed"
     set +x  # Disable debugging
     """

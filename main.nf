@@ -1,59 +1,6 @@
 #!/usr/bin/env nextflow
 nextflow.enable.dsl=2
 
-process createConfig_Data_Distribution {
-    label 'create_config'
-    container "${params.apptainer_images.data_distribution_image}"
-    errorStrategy = 'ignore'
-
-    input:
-    tuple val(pointing_id), val(bridge_number)
-    path(bvruse_metadata)
-    val(input_root_dir)
-    val(output_root_dir)
-
-    output:
-    tuple path("bridge_${bridge_number}.conf"), env(dada_dir)
-   
-    script:
-    """
-    #!/bin/bash
-    source /workspace/python_environments/dada_generator/bin/activate
-    python /workspace/BEAMFORMER/meerkat-data-distribution/python/make_config.py ${bvruse_metadata} -p ${pointing_id} -b ${bridge_number} -r ${input_root_dir} -d ${output_root_dir} > bridge_${bridge_number}.conf
-    #Extract dada_dir from config file
-    dada_dir=\$(grep "dada_dir" bridge_${bridge_number}.conf | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
-    
-    """
-}
-
-process CREATE_DADA {
-    label 'create_dada'
-    container "${params.apptainer_images.data_distribution_image}"
-    errorStrategy = 'ignore'
-     
-
-    input:
-    tuple path(config_file), val(destination_dir)
-
-    output:
-    stdout
-    
-
-
-    script:
-    """
-    #!/bin/bash
-    set -x  # Enable debugging
-    export TERM=dumb
-
-    echo "Starting the distribution process"
-    /workspace/BEAMFORMER/meerkat-data-distribution/distribute -c ${config_file} 
-    echo "Distribution process completed"
-    set +x  # Disable debugging
-    """
-
-
-}
 
 process get_metadata_and_create_dada_file_list {
     label 'create_config'
@@ -89,7 +36,14 @@ process get_metadata_and_create_dada_file_list {
 process create_delay_file{
         label 'create_config'
         container "${params.apptainer_images.skyweaverpy_image}"
-
+        publishDir "${params.beamformer.output_root_dir}", pattern: "*.bin", mode: 'copy'
+        // publishDir "${params.beamformer.output_root_dir}", pattern: "*.mosaic", mode: 'copy'
+        // publishDir  "${params.beamformer.output_root_dir}", pattern: "*.csv", mode: 'copy'
+        // publishDir  "${params.beamformer.output_root_dir}", pattern: "*.fits", mode: 'copy'
+        // publishDir  "${params.beamformer.output_root_dir}", pattern: "*.png", mode: 'copy'
+        // publishDir  "${params.beamformer.output_root_dir}", pattern: "*.targets", mode: 'copy'
+        // publishDir  "${params.beamformer.output_root_dir}", pattern: "*.yaml", mode: 'copy'
+        
         input:
         val(source_name)
         val(delay_validity_time_interval)
@@ -102,9 +56,10 @@ process create_delay_file{
         script:
         """
         #!/bin/bash
-        python /bscratch/vishnu/BEAMFORMER/meerkat-data-distribution/python/get_pointing_id_from_source_name.py -s ${source_name} ${bvruse_metadata} > pointing_id.txt
+        python /b/u/vishnu/BEAMFORMER/meerkat-data-distribution/python/get_pointing_id_from_source_name.py -s ${source_name} ${bvruse_metadata} > pointing_id.txt
         pointing_id=\$(grep "pointing_id" pointing_id.txt | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
-        sw delays create --pointing-idx \${pointing_id} --step ${delay_validity_time_interval} ${bvruse_metadata} ${config_file}
+        python ${params.beamformer.skyweaverpy_code_dir}/cli.py delays create --pointing-idx \${pointing_id} --step ${delay_validity_time_interval} ${bvruse_metadata} ${config_file}
+        #sw delays create --pointing-idx \${pointing_id} --step ${delay_validity_time_interval} ${bvruse_metadata} ${config_file}
         """
 
 
@@ -125,13 +80,15 @@ process create_skyweavercpp_config{
     script:
     """
     #!/bin/bash
-    python $baseDir/yaml_to_ini_convert.py -y ${skyweaverpy_yaml_config} -i ${output_skyweaver_cpp_config} -o ${params.beamformer.output_root_dir} -d ${delay_file} -t ${obs_duration} -f ${dada_file_list}
-
+    if [ -z "${params.beamformer.obs_duration}" ] ; then
+        obs_length=${obs_duration}
+    else
+        obs_length=${params.beamformer.obs_duration}
+    fi
+    python $baseDir/yaml_to_ini_convert.py -y ${skyweaverpy_yaml_config} -i ${output_skyweaver_cpp_config} -o ${params.beamformer.output_root_dir}/${params.source_name} -d ${delay_file} -t \${obs_length} -f ${dada_file_list}
     """
-
-
-
 }
+
 
 process beamformer {
     label 'beamformer'
@@ -140,7 +97,7 @@ process beamformer {
     maxRetries 3
 
     input:
-    tuple path(skyweaver_cpp_config), path(dada_file_list), path(delay_file), val(beam_formed_dir)
+    tuple path(skyweaver_cpp_config), path(dada_file_list), path(delay_file)
 
     output:
     stdout
@@ -151,6 +108,7 @@ process beamformer {
     """
     #!/bin/bash    
     mkdir -p ${params.beamformer.output_root_dir}
+    export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH}:/usr/local/lib
     ${skyweavercpp_path} --gulp-size ${params.beamformer.skyweavercpp_gulp_size} -c ${skyweaver_cpp_config} --log-level ${params.beamformer.skyweavercpp_log_level}
     """
 }

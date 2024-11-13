@@ -1,19 +1,52 @@
-process known_pulsar_folder {
+
+process test_folding {
     label 'known_pulsar_folder'
     container "${params.apptainer_images.pulsar_folder_image}"
-
     input:
         tuple val(groupKey), path(filterbank_files)
 
     output:
-        path("${groupKey}")
+        stdout
+    // output:
+    // path("*.ar")
 
+    // publishDir "${params.known_pulsar_folder.dspsr_out_root}/${groupKey}/", mode: 'rsync'
 
+    // script:
+    """
+    #!/bin/bash
+
+    ephem_flag=""
+
+    # Build ephemeris flags
+    for i in \$(ls ${params.known_pulsar_folder.ephem_dir}/*.par); do
+        ephem_flag="\$ephem_flag -E \$i"
+    done
+
+    mkdir -p "${params.known_pulsar_folder.dspsr_out_root}/${groupKey}"
+
+    dspsr ${params.known_pulsar_folder.dspsr_flags} \$ephem_flag -t ${params.known_pulsar_folder.dspsr_nthreads} ${filterbank_files}
+
+    """
+}
+
+process known_pulsar_folder {
+    label 'known_pulsar_folder'
+    container "${params.apptainer_images.pulsar_folder_image}"
+    maxForks 1
+
+    input:
+        tuple val(groupKey), path(filterbank_files)
+
+    // output:
+    //     path("${groupKey}")
+
+    maxForks 1
 
     script:
     """
     #!/bin/bash
-    ulimit -n 1000000
+    #ulimit -n 1000000
 
     ephem_flag=""
 
@@ -22,22 +55,30 @@ process known_pulsar_folder {
         ephem_flag="\$ephem_flag -E \$i"
     done
     work_dir=\$(pwd)
-
+    echo "Working directory: \$work_dir"
     # Create the output directory within the process working directory
     mkdir -p "${params.known_pulsar_folder.dspsr_out_root}/${groupKey}"
-    cd "${params.known_pulsar_folder.dspsr_out_root}/${groupKey}"
-
-    # Build the list of filterbank files with absolute paths
+    #cd "${params.known_pulsar_folder.dspsr_out_root}/${groupKey}"
     filstr=""
-    for i in ${filterbank_files}; do
-        filstr="\$filstr \${work_dir}/\${i}"
-    done
-
+    #Create a soft link to the filterbank files
+    #for i in ${filterbank_files}; do
+    #    ln -s \$i \$work_dir/\$(basename \$i)
+    #    filstr="\$filstr \$work_dir/\$(basename \$i)"
+    #done
+    # Build the list of filterbank files with absolute paths
+    #filstr=""
+    #for i in ${filterbank_files}; do
+    #    filstr="\$filstr \${work_dir}/\${i}"
+    #done
+    #for i in ${filterbank_files}; do
+    #    filstr="\$filstr \${i}"
+    #done
+    echo "Filterbank files: \$filstr"
+    echo "Filterbank original files: ${filterbank_files}"
     # Run dspsr from within the output directory
-    dspsr ${params.known_pulsar_folder.dspsr_flags} \$ephem_flag \\
-          -t ${params.known_pulsar_folder.dspsr_nthreads} \$filstr
+    dspsr ${params.known_pulsar_folder.dspsr_flags} \$ephem_flag -t ${params.known_pulsar_folder.dspsr_nthreads} ${filterbank_files}
 
-    ln -s ${params.known_pulsar_folder.dspsr_out_root}/${groupKey} \$work_dir/${groupKey}
+    #ln -s ${params.known_pulsar_folder.dspsr_out_root}/${groupKey} \$work_dir/${groupKey}
     """
 }
 
@@ -45,6 +86,8 @@ process pdmp_runner {
 
     label 'pdmp_runner'
     container "${params.apptainer_images.pulsar_folder_image}"
+    maxForks 1
+
 
     input:
         val(input_dir)
@@ -84,8 +127,12 @@ workflow {
             tuple(groupKey, file)
         }
         .groupTuple()
-
+    //filterbank_groups.view()
+    par_files = Channel.fromPath("${params.known_pulsar_folder.ephem_dir}/*.par/")
+    combined_files = filterbank_groups.combine(par_files)
+    combined_files.view()
+    //filterbank_groups | test_folding
     // Pass the filterbank groups to the known_pulsar_folder process
-    filterbank_groups | known_pulsar_folder | pdmp_runner
+    //filterbank_groups | known_pulsar_folder | pdmp_runner
 }
 
