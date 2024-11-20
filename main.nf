@@ -36,13 +36,6 @@ process get_metadata_and_create_dada_file_list {
 process create_delay_file{
         label 'create_config'
         container "${params.apptainer_images.skyweaverpy_image}"
-        publishDir "${params.beamformer.output_root_dir}", pattern: "*.bin", mode: 'copy'
-        // publishDir "${params.beamformer.output_root_dir}", pattern: "*.mosaic", mode: 'copy'
-        // publishDir  "${params.beamformer.output_root_dir}", pattern: "*.csv", mode: 'copy'
-        // publishDir  "${params.beamformer.output_root_dir}", pattern: "*.fits", mode: 'copy'
-        // publishDir  "${params.beamformer.output_root_dir}", pattern: "*.png", mode: 'copy'
-        // publishDir  "${params.beamformer.output_root_dir}", pattern: "*.targets", mode: 'copy'
-        // publishDir  "${params.beamformer.output_root_dir}", pattern: "*.yaml", mode: 'copy'
         
         input:
         val(source_name)
@@ -51,14 +44,25 @@ process create_delay_file{
         path(config_file)
 
         output:
-        path("*.bin")
+        tuple path("*.bin"), path("*.mosaic"), path("*.csv"), path("*.fits"), path("*.png"), path("*.targets")
+
+        publishDir "${params.beamformer.output_root_dir}/${params.source_name}", pattern: "*.bin", mode: 'copy'
+        publishDir "${params.beamformer.output_root_dir}/${params.source_name}", pattern: "*.mosaic", mode: 'copy'
+        publishDir  "${params.beamformer.output_root_dir}/${params.source_name}", pattern: "*.csv", mode: 'copy'
+        publishDir  "${params.beamformer.output_root_dir}/${params.source_name}", pattern: "*.fits", mode: 'copy'
+        publishDir  "${params.beamformer.output_root_dir}/${params.source_name}", pattern: "*.png", mode: 'copy'
+        publishDir  "${params.beamformer.output_root_dir}/${params.source_name}", pattern: "*.targets", mode: 'copy'
+        
 
         script:
         """
         #!/bin/bash
+        mkdir -p ${params.beamformer.output_root_dir}/${params.source_name}
         python /b/u/vishnu/BEAMFORMER/meerkat-data-distribution/python/get_pointing_id_from_source_name.py -s ${source_name} ${bvruse_metadata} > pointing_id.txt
         pointing_id=\$(grep "pointing_id" pointing_id.txt | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
         python ${params.beamformer.skyweaverpy_code_dir}/cli.py delays create --pointing-idx \${pointing_id} --step ${delay_validity_time_interval} ${bvruse_metadata} ${config_file}
+        cp ${config_file} ${params.beamformer.output_root_dir}/${params.source_name}
+        
         #sw delays create --pointing-idx \${pointing_id} --step ${delay_validity_time_interval} ${bvruse_metadata} ${config_file}
         """
 
@@ -107,7 +111,6 @@ process beamformer {
 
     """
     #!/bin/bash    
-    mkdir -p ${params.beamformer.output_root_dir}
     export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH}:/usr/local/lib
     ${skyweavercpp_path} --gulp-size ${params.beamformer.skyweavercpp_gulp_size} -c ${skyweaver_cpp_config} --log-level ${params.beamformer.skyweavercpp_log_level}
     """
@@ -118,7 +121,13 @@ process beamformer {
 workflow {
     bridge_number = Channel.from(params.bridge_number)
     delay_file_channel = create_delay_file(params.source_name, params.beamformer.delay_validity_time_interval, params.bvruse_metadata, params.input_yaml_config)
-    metadata_channel = get_metadata_and_create_dada_file_list(delay_file_channel, params.source_name, bridge_number, params.bvruse_metadata, params.beamformer.input_root_dir)
+
+    delay_file_path = delay_file_channel.map { item ->
+    def (delay_file, mosaic, csv, fits, png, targets) = item
+    return delay_file
+    }   
+
+    metadata_channel = get_metadata_and_create_dada_file_list(delay_file_path, params.source_name, bridge_number, params.bvruse_metadata, params.beamformer.input_root_dir)
     sw_cpp_config = create_skyweavercpp_config(params.input_yaml_config, params.skyweaver_cpp_config, metadata_channel)
     beamformer(sw_cpp_config)
     
