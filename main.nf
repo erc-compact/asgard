@@ -21,7 +21,7 @@ process get_metadata_and_create_dada_file_list {
     """
     #!/bin/bash
     source /workspace/python_environments/dada_generator/bin/activate
-    python /workspace/BEAMFORMER/meerkat-data-distribution/python/get_pointing_id_from_source_name.py ${bvruse_metadata} -s ${source_name} -b ${bridge_number} -d ${beamformer_input_root_dir} > metadata.info
+    python ${params.dada_generate.code_directory}/python/get_pointing_id_from_source_name.py ${bvruse_metadata} -s ${source_name} -b ${bridge_number} -d ${beamformer_input_root_dir} > metadata.info
     # Extract dada_dir from config file
     dada_dir=\$(grep "dada_dir" metadata.info | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
     pointing_id=\$(grep "pointing_id" metadata.info | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
@@ -39,6 +39,7 @@ process create_delay_file{
         
         input:
         val(source_name)
+        val(start_utc)
         val(delay_validity_time_interval)
         path(bvruse_metadata)
         path(config_file)
@@ -46,22 +47,22 @@ process create_delay_file{
         output:
         tuple path("*.bin"), path("*.mosaic"), path("*.csv"), path("*.fits"), path("*.png"), path("*.targets")
 
-        publishDir "${params.beamformer.output_root_dir}/${params.source_name}", pattern: "*.bin", mode: 'copy'
-        publishDir "${params.beamformer.output_root_dir}/${params.source_name}", pattern: "*.mosaic", mode: 'copy'
-        publishDir  "${params.beamformer.output_root_dir}/${params.source_name}", pattern: "*.csv", mode: 'copy'
-        publishDir  "${params.beamformer.output_root_dir}/${params.source_name}", pattern: "*.fits", mode: 'copy'
-        publishDir  "${params.beamformer.output_root_dir}/${params.source_name}", pattern: "*.png", mode: 'copy'
-        publishDir  "${params.beamformer.output_root_dir}/${params.source_name}", pattern: "*.targets", mode: 'copy'
+        publishDir "${params.beamformer.output_root_dir}/${params.source_name}/${start_utc}", pattern: "*.bin", mode: 'copy'
+        publishDir "${params.beamformer.output_root_dir}/${params.source_name}/${start_utc}", pattern: "*.mosaic", mode: 'copy'
+        publishDir  "${params.beamformer.output_root_dir}/${params.source_name}/${start_utc}", pattern: "*.csv", mode: 'copy'
+        publishDir  "${params.beamformer.output_root_dir}/${params.source_name}/${start_utc}", pattern: "*.fits", mode: 'copy'
+        publishDir  "${params.beamformer.output_root_dir}/${params.source_name}/${start_utc}", pattern: "*.png", mode: 'copy'
+        publishDir  "${params.beamformer.output_root_dir}/${params.source_name}/${start_utc}", pattern: "*.targets", mode: 'copy'
         
 
         script:
         """
         #!/bin/bash
-        mkdir -p ${params.beamformer.output_root_dir}/${params.source_name}
-        python /b/u/vishnu/BEAMFORMER/meerkat-data-distribution/python/get_pointing_id_from_source_name.py -s ${source_name} ${bvruse_metadata} > pointing_id.txt
+        mkdir -p ${params.beamformer.output_root_dir}/${params.source_name}/${start_utc}
+        python ${params.dada_generate.code_directory}/python/get_pointing_id_from_source_name.py -s ${source_name} ${bvruse_metadata} > pointing_id.txt
         pointing_id=\$(grep "pointing_id" pointing_id.txt | awk -F '=' '{print \$2}' | sed 's/[", ]//g')
         python ${params.beamformer.skyweaverpy_code_dir}/cli.py delays create --pointing-idx \${pointing_id} --step ${delay_validity_time_interval} ${bvruse_metadata} ${config_file}
-        cp ${config_file} ${params.beamformer.output_root_dir}/${params.source_name}
+        cp ${config_file} ${params.beamformer.output_root_dir}/${params.source_name}/${start_utc}
         
         #sw delays create --pointing-idx \${pointing_id} --step ${delay_validity_time_interval} ${bvruse_metadata} ${config_file}
         """
@@ -116,11 +117,39 @@ process beamformer {
     """
 }
 
+process get_dada_start_utc_time {
+    label 'create_config'
+    container "${params.apptainer_images.skyweaverpy_image}"
+
+    input:
+    val(input_root_dir)
+    path(bvruse_metadata)
+    val(pointing_id)
+
+    output:
+    env(utc_time)
+
+    script:
+    """
+    #!/bin/bash
+    python ${params.dada_generate.code_directory}/python/make_config_from_metadata.py ${bvruse_metadata} -p ${pointing_id} > sample.conf
+    pointing_start_utc_from_metadata_file=\$(grep "date=" sample.conf | awk -F'=' '{print \$2}' | tr -d '" ')
+    source_name=\$(grep "source =" sample.conf | awk -F'=' '{print \$2}' | tr -d '" ')
+    #There can be offsets between when the bvruse metadata says the observation started and when the dada files in all the bridges actually start. 
+    #Now find the utc start time of the dada files
+    utc_timestamp=\$($baseDir/find_start_utc_timestamp_dada_files.sh ${input_root_dir}/\$source_name/\$pointing_start_utc_from_metadata_file)
+    utc_time=\$(python ${params.dada_generate.code_directory}/python/find_dada_utc_start_time_from_timestamp.py -t \${utc_timestamp})
+   
+
+    """
+}
 
 
 workflow {
+    pointing_id = Channel.from(params.pointing_id)
+    utc_start_time = get_dada_start_utc_time(params.beamformer.input_root_dir, params.bvruse_metadata, pointing_id)
     bridge_number = Channel.from(params.bridge_number)
-    delay_file_channel = create_delay_file(params.source_name, params.beamformer.delay_validity_time_interval, params.bvruse_metadata, params.input_yaml_config)
+    delay_file_channel = create_delay_file(params.source_name, utc_start_time, params.beamformer.delay_validity_time_interval, params.bvruse_metadata, params.input_yaml_config)
 
     delay_file_path = delay_file_channel.map { item ->
     def (delay_file, mosaic, csv, fits, png, targets) = item

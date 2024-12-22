@@ -58,7 +58,7 @@ process CREATE_DADA {
     set -x  # Enable debugging
     export TERM=dumb
     echo "Starting the distribution process"
-    time /workspace/BEAMFORMER/meerkat-data-distribution/distribute -c ${config_file} 
+    /workspace/BEAMFORMER/meerkat-data-distribution/distribute -c ${config_file} 
     echo "Distribution process completed"
     set +x  # Disable debugging
     """
