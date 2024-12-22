@@ -8,9 +8,8 @@ process get_metadata_and_create_dada_file_list {
     errorStrategy = 'ignore'
 
     input:
-    path(delay_file)
+    tuple path(delay_file), val(bridge_number)
     val(source_name)
-    val(bridge_number)
     path(bvruse_metadata)
     val(beamformer_input_root_dir)
 
@@ -148,15 +147,16 @@ process get_dada_start_utc_time {
 workflow {
     pointing_id = Channel.from(params.pointing_id)
     utc_start_time = get_dada_start_utc_time(params.beamformer.input_root_dir, params.bvruse_metadata, pointing_id)
-    bridge_number = Channel.from(params.bridge_number)
     delay_file_channel = create_delay_file(params.source_name, utc_start_time, params.beamformer.delay_validity_time_interval, params.bvruse_metadata, params.input_yaml_config)
 
     delay_file_path = delay_file_channel.map { item ->
     def (delay_file, mosaic, csv, fits, png, targets) = item
     return delay_file
-    }   
+    } 
+    bridge_number = Channel.from(params.bridge_number)
+    delay_file_path_bridge_combined = delay_file_path.combine(bridge_number)
 
-    metadata_channel = get_metadata_and_create_dada_file_list(delay_file_path, params.source_name, bridge_number, params.bvruse_metadata, params.beamformer.input_root_dir)
+    metadata_channel = get_metadata_and_create_dada_file_list(delay_file_path_bridge_combined, params.source_name, params.bvruse_metadata, params.beamformer.input_root_dir)
     sw_cpp_config = create_skyweavercpp_config(params.input_yaml_config, params.skyweaver_cpp_config, metadata_channel)
     beamformer(sw_cpp_config)
     
