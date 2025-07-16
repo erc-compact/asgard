@@ -31,7 +31,7 @@ done
 # Collect all patterns with counts greater than 100 in a comma-separated string
 result=""
 for pattern in $(printf "%s\n" "${!pattern_counts[@]}" | sort -n); do
-  if (( pattern_counts[$pattern] > 20 )); then
+  if (( pattern_counts[$pattern] > 30 )); then
     result+="$((10#$pattern)),"
   fi
 done

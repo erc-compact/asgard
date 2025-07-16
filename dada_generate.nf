@@ -42,6 +42,7 @@ process CREATE_DADA {
     label 'create_dada'
     container "${params.apptainer_images.data_distribution_image}"
     errorStrategy = 'ignore'
+    maxForks 20
      
 
     input:
