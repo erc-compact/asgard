@@ -70,7 +70,7 @@ process updateSNRTargets {
     """
     #!/usr/bin/env bash
     echo ${pdmp_results} > pdmp_results.txt
-    python ${baseDir}/merge_snr_targets.py -p pdmp_results.txt -t ${targets_file}
+    python ${baseDir}/scripts/merge_snr_targets.py -p pdmp_results.txt -t ${targets_file}
     """
 }
 
@@ -85,7 +85,7 @@ process plot_pdmp_beam_map {
     
     script:
     """
-    python ${baseDir}/plot_tiling_snr.py --tiling ${pdmp_snr_file} --source ${params.source_name}
+    python ${baseDir}/scripts/plot_tiling_snr.py --tiling ${pdmp_snr_file} --source ${params.source_name}
     """
 
 }

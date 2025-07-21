@@ -89,7 +89,7 @@ process create_skyweavercpp_config{
     else
         obs_length=${params.beamformer.obs_duration}
     fi
-    python $baseDir/yaml_to_ini_convert.py -y ${skyweaverpy_yaml_config} -i ${output_skyweaver_cpp_config} -o ${params.beamformer.output_root_dir}/${params.source_name} -d ${delay_file} -t \${obs_length} -f ${dada_file_list}
+    python $baseDir/scripts/yaml_to_ini_convert.py -y ${skyweaverpy_yaml_config} -i ${output_skyweaver_cpp_config} -o ${params.beamformer.output_root_dir}/${params.source_name} -d ${delay_file} -t \${obs_length} -f ${dada_file_list}
     """
 }
 

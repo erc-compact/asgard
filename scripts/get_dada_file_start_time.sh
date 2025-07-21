@@ -5,8 +5,8 @@ read -p "Enter the source name: " source_name
 
 # Root directory given by the user
 #root="/b/DATA/BASEBAND/SPEAD/$source_name/"
-root="/media/"
-
+root="/media/inner"
+sing_img="/b/u/vishnu/SINGULARITY_IMAGES/meerkat-data-distribution_dev3.sif"
 # Get unique UTCs for the specified source
 utc_list=($(find "$root" -type f -name "*${source_name}_*" | awk -F'/' '{print $NF}' | awk -F'_' '{print $1}' | sort | uniq))
 
@@ -46,8 +46,8 @@ for utc in "${utc_list[@]}"; do
       fi
 
       # Run the Apptainer command and extract "time min"
-      sing_cmd="apptainer exec -H $HOME:/home1 -B /b -B /bscratch -B /media -B /b/u/vishnu/BEAMFORMER/:/workspace/BEAMFORMER /b/u/vishnu/SINGULARITY_IMAGES/meerkat-data-distribution_dev3.sif"
-      output=$($sing_cmd /workspace/BEAMFORMER/meerkat-data-distribution/distribute -c bridge_43.conf -r "$filename")
+      sing_cmd="apptainer exec -H $HOME:/home1 -B /b -B /bscratch -B /media -B /b/u/vishnu/BEAMFORMER/:/workspace/BEAMFORMER $sing_img"
+      output=$($sing_cmd /workspace/BEAMFORMER/meerkat-data-distribution/distribute -c ../example_inputs/dada_generate/bridge_43.conf -r "$filename")
       time_min=$(echo "$output" | grep "time min" | awk '{print $3}')
 
       # Update the minimum time for this bridge and for the UTC
