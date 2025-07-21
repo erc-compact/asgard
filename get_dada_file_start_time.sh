@@ -4,7 +4,8 @@
 read -p "Enter the source name: " source_name
 
 # Root directory given by the user
-root="/b/DATA/BASEBAND/SPEAD/$source_name/"
+#root="/b/DATA/BASEBAND/SPEAD/$source_name/"
+root="/media/"
 
 # Get unique UTCs for the specified source
 utc_list=($(find "$root" -type f -name "*${source_name}_*" | awk -F'/' '{print $NF}' | awk -F'_' '{print $1}' | sort | uniq))
@@ -45,7 +46,7 @@ for utc in "${utc_list[@]}"; do
       fi
 
       # Run the Apptainer command and extract "time min"
-      sing_cmd="apptainer exec -H $HOME:/home1 -B /b:/b -B /bscratch:/bscratch -B /b/u/vishnu/BEAMFORMER/:/workspace/BEAMFORMER /b/u/vishnu/SINGULARITY_IMAGES/meerkat-data-distribution_dev3.sif"
+      sing_cmd="apptainer exec -H $HOME:/home1 -B /b -B /bscratch -B /media -B /b/u/vishnu/BEAMFORMER/:/workspace/BEAMFORMER /b/u/vishnu/SINGULARITY_IMAGES/meerkat-data-distribution_dev3.sif"
       output=$($sing_cmd /workspace/BEAMFORMER/meerkat-data-distribution/distribute -c bridge_43.conf -r "$filename")
       time_min=$(echo "$output" | grep "time min" | awk '{print $3}')
 

@@ -1,5 +1,6 @@
 import pandas as pd
-df = pd.read_csv('results_NGC1851.txt', sep='\s+')
+df = pd.read_csv('results_M70.txt', sep='\s+')
+#df = pd.read_csv('results_NGC1851.txt', sep='\s+')
 #df = pd.read_csv('results_NGC6544.txt', sep='\s+')
 
 #df contains start time per bridge per RX buffer pair.
@@ -7,8 +8,9 @@ df = pd.read_csv('results_NGC1851.txt', sep='\s+')
 #J0437 = df.loc[(df['UTC'] == '2024-05-19T15:40:47Z') | (df['UTC'] == '2024-05-19T15:40:48Z')]
 #J1909 = df.loc[(df['UTC'] == '2024-05-23T02:54:56Z') | (df['UTC'] == '2024-05-23T02:54:57Z')]
 #J1909 = df.loc[(df['UTC'] == '2024-05-23T02:54:56Z')]
-NGC1851 = df.loc[(df['UTC'] == '2024-05-19T15:50:07Z')]
-min_time_per_bridge = NGC1851.groupby('Bridge')['Time_Min'].min().reset_index()
+#NGC1851 = df.loc[(df['UTC'] == '2024-05-19T15:50:07Z')]
+M70 = df.loc[(df['UTC'] == '2025-03-28T07:06:12Z')]
+min_time_per_bridge = M70.groupby('Bridge')['Time_Min'].min().reset_index()
 
 #For test pulsars, sometimes a certain bridge may never start until the next scan begins, then look for the last bridge that started for the time-period of the test pulsar can
 #test = min_time_per_bridge.sort_values(by='Time_Min', ascending=False)
