@@ -10,21 +10,25 @@
 ASGARD wraps together four major processing stages:
 
 1. **DADA Generation**
+
    Converts raw SPEAD packets to `.dada` format using the [meerkat-data-distribution](https://github.com/erc-compact/meerkat_data_distribution) codebase.
 
    *Pipeline:* `nf/dada_generate.nf`
 
 2. **Beamforming**
+
    Performs offline beamforming using the [skyweaver](https://github.com/erc-compact/skyweaver) package.
 
    *Pipeline:* `nf/beamformer.nf`
 
 3. **Filterbank Generation**
+
    Reorders beamformer output and generates `.fil` filterbank files using `Skycleaver` (part of the skyweaver package).
 
    *Pipeline:* `nf/skycleaver.nf`
 
 4. **Known Pulsar Folding**
+
    Folds known pulsars using provided ephemerides and verifies beamformer performance.
 
    *Pipeline:* `nf/known_pulsar_fold.nf`
@@ -175,9 +179,9 @@ Fill in your `skycleaver` config section:
 
 ```groovy
 skycleaver {
-    root = "/b/p/01_BEAMFORMED"
+    root = "$path_to_beamformer_output/01_BEAMFORMED"
     utc = "2025-03-28T07:06:12Z"
-    output_root = "/b/p/02_FILTERBANKS"
+    output_root = "$path_to_input_filterbank/02_FILTERBANKS"
     stream_id = 0  // Select ddplan stream
     nthreads = 360
     nsamples_per_block = 32768
@@ -203,7 +207,7 @@ Update your config as follows:
 known_pulsar_folder {
     dspsr_flags = "-Lmin 5 -L 10 -A"
     dspsr_nthreads = 4
-    dspsr_out_root = "/b/p/03_KNOWN_PULSAR_FOLDS"
+    dspsr_out_root = "$path_to_known_pulsar_folder/03_KNOWN_PULSAR_FOLDS"
     pdmp_flags = "-mc 32"
     ephem_dir = "/path/to/ephemeris/M70"
 }
