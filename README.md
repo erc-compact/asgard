@@ -70,7 +70,7 @@ cp configs/nextflow/default.config configs/nextflow/M70.config
 Run the script `scripts/count_spead_packets.sh` to determine available bridges for a given scan:
 Point it to the root directory where the SPEAD packets are stored and the name of the target. The name of the target is provided in the compressed spead packet filename: example (2025-03-28T07:06:12Z_M70_00_07_0032.zst) ->  Here M70 is the target name. 
 ```bash
-scripts/count_spead_packets.sh /media M70
+scripts/count_spead_packets.sh /media/inner M70
 ```
 
 Extract the `bridge_number` list from the output and paste it into your config file.
