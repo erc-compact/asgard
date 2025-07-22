@@ -13,25 +13,25 @@ ASGARD wraps together four major processing stages:
 
    Converts raw SPEAD packets to `.dada` format using the [meerkat-data-distribution](https://github.com/erc-compact/meerkat_data_distribution) codebase.
 
-   *Pipeline:* `nf/dada_generate.nf`
+   *Pipeline:* `dada_generate.nf`
 
 2. **Beamforming**
 
    Performs offline beamforming using the [skyweaver](https://github.com/erc-compact/skyweaver) package.
 
-   *Pipeline:* `nf/beamformer.nf`
+   *Pipeline:* `beamformer.nf`
 
 3. **Filterbank Generation**
 
    Reorders beamformer output and generates `.fil` filterbank files using `Skycleaver` (part of the skyweaver package).
 
-   *Pipeline:* `nf/skycleaver.nf`
+   *Pipeline:* `skycleaver.nf`
 
 4. **Known Pulsar Folding**
 
    Folds known pulsars using provided ephemerides and verifies beamformer performance.
 
-   *Pipeline:* `nf/known_pulsar_fold.nf`
+   *Pipeline:* `known_pulsar_fold.nf`
 
 > ⚠️ **Note:** meerkat-data-distribution is a private repository with access limited to the COMPACT team. If you need access, please contact the COMPACT admins.
 
@@ -109,7 +109,7 @@ To calculate how much time to skip at the start of an observation, see:
 Launch the pipeline:
 
 ```bash
-nextflow run nf/dada_generate.nf -c configs/nextflow/M70.config -profile contra
+nextflow run dada_generate.nf -c configs/nextflow/M70.config -profile contra
 ```
 
 Add `-resume` to continue from a previous run.
@@ -166,7 +166,7 @@ beamformer {
 Launch beamforming:
 
 ```bash
-nextflow run nf/beamformer.nf -c configs/nextflow/M70.config -profile contra
+nextflow run beamformer.nf -c configs/nextflow/M70.config -profile contra
 ```
 
 Output directories are created for each `ddplan` stream.
@@ -194,7 +194,7 @@ skycleaver {
 Run:
 
 ```bash
-nextflow run nf/skycleaver.nf -c configs/nextflow/M70.config -profile contra
+nextflow run skycleaver.nf -c configs/nextflow/M70.config -profile contra
 ```
 
 ---
@@ -218,7 +218,7 @@ Each `.par` file in `ephem_dir` will be folded against all `.fil` files in the c
 Run:
 
 ```bash
-nextflow run nf/known_pulsar_fold.nf -c configs/nextflow/M70.config -profile contra
+nextflow run known_pulsar_fold.nf -c configs/nextflow/M70.config -profile contra
 ```
 
 ---
