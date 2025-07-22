@@ -134,6 +134,7 @@ beamformer_config:
   coherent_dms: [0.0]
 
 ddplan:
+#Each of these rows is called a ddplan stream id. These are of the format <coherent_dm>:<start_incoherent_dm>:"<end_incoherent_dm>:<dm_step>:<tscrunch>
   - "0.00:0.00:0.00:1:1"
   - "2.64:2.64:2.64:1:1"
 
