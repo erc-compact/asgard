@@ -76,8 +76,17 @@ scripts/count_spead_packets.sh /media/inner M70
 Extract the `bridge_number` list from the output and paste it into your config file.
 
 ---
+### Step 4: Delete any .zst files (collection of SPEAD Packets) that do not have any data in them.
 
-### Step 4: Fill Nextflow Config
+Sometimes the last few .zst files of an observing session have no data in them. These need to be either deleted or
+only valid .zst files need to be symlinked to a different directory which is then passed to the Dada generation code. There is a bash script that does this.
+
+See:
+```bash
+scripts/create_symlinks_for_spead_packet_files.sh 
+```
+
+### Step 5: Fill Nextflow Config
 
 Copy the list of bridge numbers to your nextflow config file `configs/nextflow/M70.config`. Paste it under params.bridge_number. Additionally also fill up pointing_id, source_name and ensure your apptainer/singularity images in the configuration files exist on disk and are up-to-date.
 
@@ -104,7 +113,7 @@ To calculate how much time to skip at the start of an observation, see:
 
 ---
 
-### Step 5: Run DADA Generation
+### Step 6: Run DADA Generation
 
 Launch the pipeline:
 
