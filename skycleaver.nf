@@ -16,7 +16,7 @@ process skycleaver{
     """
     #!/bin/bash
     export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH}:/usr/local/lib
-    targets_file=\$(find ${params.skycleaver.root}/${params.source_name}/${params.skycleaver.utc} -name "*targets" | head -n 1)
+    targets_file=\$(find ${params.skycleaver.root}/${params.source_name} -name "*targets" | head -n 1)
     echo "targets file is: \$targets_file"
     ${skycleaver_path} -r ${params.skycleaver.root}/${params.source_name}/${params.skycleaver.utc} --targets_file \$targets_file --output-dir ${params.skycleaver.output_root}/${params.source_name}  --stream-id ${stream_id} --nthreads ${task.cpus}  --nsamples-per-block ${params.skycleaver.nsamples_per_block} --out-stokes ${params.skycleaver.out_stokes}  --log-level ${params.skycleaver.log_level}
     """

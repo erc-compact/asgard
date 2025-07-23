@@ -93,29 +93,30 @@ process plot_pdmp_beam_map {
 
 workflow {
     // Collect all filterbank files into a channel
-    filterbanks = Channel.fromPath("${params.skycleaver.output_root}/${params.skycleaver.utc}/${params.source_name}/${params.skycleaver.stream_id}/*.fil")
-
+    filterbanks = Channel.fromPath("${params.skycleaver.output_root}/${params.source_name}/${params.skycleaver.utc}/${params.skycleaver.stream_id}/**/*.fil")
     // Group filterbanks by unique names
     filterbank_groups = filterbanks
         .map { file ->
             def filename = file.getName()
             def groupKey = filename.split('_').init().join('_')
             def dirname = groupKey.replaceAll(/_\d{4}-\d{2}-\d{2}-\d{2}:\d{2}:\d{2}_\d+/, '')
-            def beam_name = dirname.split('_')[1]
+            def beam_name = dirname.split('_')[-2]
             tuple(groupKey, dirname, beam_name, file)
         }
+
         //.groupTuple()
     par_files = Channel.fromPath("${params.known_pulsar_folder.ephem_dir}/*.par")
     combined_files = filterbank_groups.combine(par_files)
     archives = known_pulsar_folding(combined_files)
     pngs = pdmp(archives)
+    pngs.view()
     
-    // Collect results into a list
+    //Collect results into a list
     pdmpResults = pngs.map { filename, beam_name, ra, dec, snr ->
         tuple(beam_name, snr)
     }.collect(flat: false)
     
-    updated_snr_file = updateSNRTargets(pdmpResults, "/b/PROCESSING/01_BEAMFORMED/J0437-4715/swdelays_J0437-4715_1716133181_to_1716133306_ba3d22.targets")
+    updated_snr_file = updateSNRTargets(pdmpResults, "/b/vishnu_test/01_BEAMFORMED/J1909-3744/swdelays_J1909-3744_1716432852_to_1716432981_444e3c.targets")
     plot_pdmp_beam_map(updated_snr_file)
     
 }
